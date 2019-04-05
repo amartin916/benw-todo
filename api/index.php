@@ -1,9 +1,7 @@
 <?php
-namespace App;
+require '../vendor/autoload.php';
 
-use Controller;
-
-require_once __DIR__.'/vendor/autoload.php';
+use App\Controller;
 
 
 $method = $_SERVER['REQUEST_METHOD'];
@@ -16,7 +14,7 @@ foreach($routes as $route){
 
   $regex = str_replace('/', '\/', 
     preg_replace('/\{.*\}/', '(\w+)', $route[1]));
-    
+
   if($route[0] == $method && preg_match("/$regex/", $request, $matches)){
     
     $controller = new Controller;
