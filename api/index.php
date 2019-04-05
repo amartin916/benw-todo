@@ -15,7 +15,7 @@ foreach($routes as $route){
   $regex = str_replace('/', '\/', 
     preg_replace('/\{.*\}/', '(\w+)', $route[1]));
 
-  if($route[0] == $method && preg_match("/$regex/", $request, $matches)){
+  if($route[0] == $method && preg_match("/^$regex$/", $request, $matches)){
     
     $controller = new Controller;
     $func = $route[2];
