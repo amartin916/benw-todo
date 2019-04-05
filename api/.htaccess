@@ -1,2 +1,6 @@
+<IfModule mod_rewrite.c>
 RewriteEngine On
-RewriteRule ^/api/ api.php
+RewriteBase /
+RewriteRule ^api/ api/index.php
+AcceptPathInfo On
+</IfModule>
