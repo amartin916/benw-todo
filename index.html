@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Document</title>
-  <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
   <link href="main.css" rel="stylesheet">
@@ -30,16 +30,8 @@
     const app = new Vue({
       el: '#app',
       data: {
-        message: 'Hello Vue!',
         apiResponse: '',
-        todos: [
-          {id:'123', 'text':'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloribus ullam qui autem. Qui obcaecati adipisci ut mollitia debitis eaque, corrupti aspernatur hic, dolorum rerum cum. Voluptatem deleniti aliquid et nostrum.', created:+new Date(), completed:null},
-          {id:'234', 'text':'Get ye flask', 'created': + new Date(), 'completed':null},
-          {id:'345', 'text':'Get ye flaskk', 'created': + new Date(), 'completed':null},
-          {id:'456', 'text':'Go north', 'created': + new Date(), 'completed':null},
-          {id:'567', 'text':'Go West', 'created': + new Date(), 'completed':null},
-          {id:'678', 'text':'Climb tree', 'created': + new Date(), 'completed':null},
-        ]
+        todos: []
       },
       mounted(){
         this.fetchAll();
