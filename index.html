@@ -13,20 +13,25 @@
 <body>
   <div id="app">
     <div id="layout-add">
+      <span v-show="apiResponse">{{apiResponse}}</span>
       <add-new-form @new-todo-item="newTodoItem"></add-new-form>
     </div>
     <div id="layout-list">
-      <todo-item v-for="todo in orderByCompleted" :key="todo.id" :todo="todo" ></todo-item>
+      <todo-item v-for="todo in orderByCompleted" :key="todo.id" 
+        :todo="todo" 
+        @update-todo="updateTodo"
+        @delete-todo="deleteTodo">
+      </todo-item>
     </div>
   </div>
   <script src="components.js"></script>
   <script>
-    // const axios = require('axios');
-
+  
     const app = new Vue({
       el: '#app',
       data: {
         message: 'Hello Vue!',
+        apiResponse: '',
         todos: [
           {id:'123', 'text':'Lorem, ipsum dolor sit amet consectetur adipisicing elit. Doloribus ullam qui autem. Qui obcaecati adipisci ut mollitia debitis eaque, corrupti aspernatur hic, dolorum rerum cum. Voluptatem deleniti aliquid et nostrum.', created:+new Date(), completed:null},
           {id:'234', 'text':'Get ye flask', 'created': + new Date(), 'completed':null},
@@ -37,10 +42,7 @@
         ]
       },
       mounted(){
-        axios.get('http://benw-todo.herokuapp.com/api/todo/').then(response => {
-          console.log(response);
-          this.todos = response;
-        });
+        this.fetchAll();
       },
       computed:{
         orderByCompleted(){
@@ -49,12 +51,25 @@
       },
       methods:{
         newTodoItem(txt){
-          console.log(txt);
-          this.todos.push({
-            id: Math.floor(Math.random()*1000),
-            text: txt,
-            created: +new Date(),
-            completed: null
+          axios.post('/api/todo', {text:txt}).then( (response) => {
+            this.fetchAll();
+          });
+        },
+        updateTodo(todo){
+          axios.patch(`/api/todo/${todo.id}`, todo).then( (response) => {
+            this.fetchAll();
+          });
+        },
+        deleteTodo(id){
+          axios.delete(`/api/todo/${id}`).then( (response) => {
+            this.fetchAll();
+          });
+        },
+        fetchAll(){
+          axios.get('/api/todo/').then( ({data}) => {
+            this.todos = data.data;
+          }).catch( (res) =>{
+            this.apiResponse = 'We had a problem talking to the api.';
           });
         }
       }

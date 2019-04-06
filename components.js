@@ -63,9 +63,9 @@ const todoItem = Vue.component('todo-item', {
     colorHash(){
       //awesome hash function I found!
       var hash = 0;
-      if (this.todo.text.length == 0) return hash;
-      for(char in this.todo.text.split('')){
-        hash = char.charCodeAt(0) + ((hash << 3) - hash);
+      if (this.newText.length == 0) return hash;
+      for(char in this.newText.split('')){
+        hash = 1.5*char.charCodeAt(0) + ((hash << 3) - hash);
         hash = hash & hash;
       }
       return `hsl(${hash % 360},${this.todo.completed==null?85:25}%,70%)`;
@@ -115,17 +115,20 @@ const todoItem = Vue.component('todo-item', {
       });
     },
     updateValue(){
+      if(!this.isEditText) return;
       this.isEditText = false;
-      this.$set(this.todo, 'text', this.newText);
+      this.todo.text =  this.newText;
+      this.$emit('update-todo', this.todo);
     },
     completeMe(){
-      this.$set(this.todo, 'completed', +new Date());
+      this.todo.completed = true;
+      this.$emit('update-todo', this.todo);
     },
     deleteMe(){
       clearTimeout(this.timer);
       if(this.deleteStatus == 1){
         this.deleteStatus = 0;
-        this.$emit('delete', this.todo.id);
+        this.$emit('delete-todo', this.todo.id);
       }else{
         this.timer = setTimeout(() => {
           this.deleteStatus = 0;

@@ -16,16 +16,15 @@ foreach($routes as $route){
   $regex = str_replace('/', '\/', 
     preg_replace('/\{.*\}/', '(\w+)', $route[1]));
 
-  if($route[0] == $method && preg_match("/^$regex$/", $request, $matches)){
+  if($route[0] == $method && preg_match("/^$regex\/?$/", $request, $matches)){
     
-    $controller = new Controller;
+    $controller = new Controller();
     $func = $route[2];
     $response = $controller->$func($input, ...array_slice($matches, 1));
     
     header('Content-Type: application/json');
     http_response_code(200);
     echo json_encode($response);
-    var_dump($_SESSION);
     exit;
   }
 }

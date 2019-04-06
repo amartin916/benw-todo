@@ -1,23 +1,52 @@
 <?php
 namespace App;
 
+use App\DB;
+
 class Controller{
-  function __construct(){ }
+
+  private $db;
+
+  function __construct(){ 
+    $this->db = new DB();
+  }
 
   public function getOne($request, $id){
-    $_SESSION['test'] = $id;
-    echo "getting one $id";
+    $result = $this->db->get($id);
+    if(!$result) return ['type'=>'error', 'message'=>'Could not connect to database'];
+
+    return ['type'=>'success', 'data'=>$result];
   }
+
+
   public function getAll($request){
-    echo "getting all".$_SESSION['test'];
+    $result = $this->db->getAll();
+    if($result === false) return ['type'=>'error', 'message'=>'Could not connect to database'];
+
+    return ['type'=>'success', 'data'=>$result];
   }
+
+
   public function createOne($request){
-    echo "createing one";
+    $result = $this->db->store($request);
+    if(!$result) return ['type'=>'error', 'message'=>'Could not connect to database'];
+
+    return ['type'=>'success'];
   }
+
+
   public function updateOne($request, $id){
-    echo "updating one $id";
+    $result = $this->db->update($id, $request);
+    if(!$result) return ['type'=>'error', 'message'=>'Could not connect to database'];
+
+    return ['type'=>'success'];
   }
+
+
   public function deleteOne($request, $id){
-    echo "deleteing one $id";
+    $result = $this->db->delete($id);
+    if(!$result) return ['type'=>'error', 'message'=>'Could not connect to database'];
+
+    return ['type'=>'success'];
   }
 }
