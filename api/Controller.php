@@ -5,10 +5,11 @@ class Controller{
   function __construct(){ }
 
   public function getOne($request, $id){
+    $_SESSION['tes'] = $id;
     echo "getting one $id";
   }
   public function getAll($request){
-    echo "getting all";
+    echo "getting all".$_SESSION['test'];
   }
   public function createOne($request){
     echo "createing one";
