@@ -25,6 +25,7 @@ foreach($routes as $route){
     header('Content-Type: application/json');
     http_response_code(200);
     echo json_encode($response);
+    var_dump($_SESSION);
     exit;
   }
 }

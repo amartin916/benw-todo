@@ -1,7 +1,7 @@
 {
   "require": {
     "php": "^7.2",
-    "vlucas/phpdotenv": "^3.3"
+    "ext-memcached": "*"
   },
   "autoload": {
     "psr-4": {
